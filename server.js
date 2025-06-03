@@ -20,7 +20,9 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.urlencoded({ extended: true }));
-
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
 // Routes
 app.use("/api/auth", authfunction);
 app.use("/api/stations", crudfunction);
