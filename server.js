@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(express.json({ limit: "7mb" }));
 app.use(cors({
-  origin: "http://localhost:5174",
+  origin: "https://charging-station-frontend-hsdr.vercel.app",
   credentials: true,
 }));
 app.use(express.urlencoded({ extended: true }));
