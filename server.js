@@ -4,42 +4,38 @@ import authfunction from "./routes/auth.route.js";
 import connectdb from "./db/connectdb.js";
 import cookieParser from "cookie-parser";
 import crudfunction from "./routes/crud.route.js";
-import cors from "cors"
+import cors from "cors";
 import path from "path";
 
-const app = express();
 dotenv.config();
+const app = express();
 const __dirname = path.resolve();
-
-
-
-app.use(cookieParser())
-
 const port = process.env.PORT || 3000;
 
-app.use(express.json(
-    {
-        limit : "7mb"
-    }
-))
+// Middleware
+app.use(cookieParser());
+app.use(express.json({ limit: "7mb" }));
 app.use(cors({
-    origin: "http://localhost:5174",
-    credentials: true,
+  origin: "http://localhost:5174",
+  credentials: true,
 }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.urlencoded({
-    extended:true
-}))
-
-app.use('/api/auth',authfunction)
+// Routes
+app.use("/api/auth", authfunction);
 app.use("/api/stations", crudfunction);
 
-if(process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "/frontend/build")));
+// Production static serving
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  });
 }
 
+// Connect DB and start server
 connectdb().then(() => {
   app.listen(port, () => {
-    console.log(`Server running successfully on port ${port}`);
+    console.log(`Server running on port ${port}`);
   });
 });
