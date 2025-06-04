@@ -9,20 +9,24 @@ import path from "path";
 
 dotenv.config();
 const app = express();
-const __dirname = path.resolve();
-const port = process.env.PORT || 3000;
-
-// Middleware
-app.use(cookieParser());
-app.use(express.json({ limit: "7mb" }));
-
-
 app.use(cors({
   origin: "https://charging-station-frontend-sage.vercel.app",
   credentials: true,
 }));
 
+const __dirname = path.resolve();
+const port = process.env.PORT || 3000;
+
+// Middleware
+app.use(express.json({ limit: "7mb" }));
+app.use(cookieParser());
+
+
+
+
+
 app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
   res.send('Backend is running');
 });
