@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(express.json({ limit: "7mb" }));
 app.use(cors({
-  origin: "https://charging-station-frontend-hsdr.vercel.app",
+  origin: "https://charging-station-frontend-sage.vercel.app",
   credentials: true,
 }));
 app.use(express.urlencoded({ extended: true }));
@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authfunction);
 app.use("/api/stations", crudfunction);
 
-// 
 // Connect DB and start server
 connectdb().then(() => {
   app.listen(port, () => {
